@@ -1,7 +1,10 @@
 package com.tournamentmanager.controller;
 
+import com.tournamentmanager.App;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -13,8 +16,8 @@ public class HomeController implements Initializable {
     }
 
     @FXML
-    public void handleVoirTournois() {
-        System.out.println("Voir les tournois");
+    public void handleVoirTournois() throws IOException {
+        App.setRoot("fxml/tournaments");
     }
 
     @FXML

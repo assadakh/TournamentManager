@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Button?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.tournamentmanager.controller.TournamentController">
+
+    <top>
+        <HBox>
+            <Label text="Mes tournois"/>
+            <Button text="Nouveau tournoi" onAction="#handleNouveauTournoi"/>
+        </HBox>
+    </top>
+
+    <center>
+        <TableView fx:id="tableTournaments">
+            <columns>
+                <TableColumn text="Nom" fx:id="colName"/>
+                <TableColumn text="Jeu" fx:id="colGame"/>
+                <TableColumn text="Date" fx:id="colDate"/>
+                <TableColumn text="Statut" fx:id="colStatus"/>
+            </columns>
+        </TableView>
+    </center>
+
+</BorderPane>
