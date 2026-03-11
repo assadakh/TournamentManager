@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Button?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.tournamentmanager.controller.HomeController">
+
+    <top>
+        <Label text="Tournament Manager"/>
+    </top>
+
+    <center>
+        <VBox>
+            <Button text="Voir les tournois" onAction="#handleVoirTournois"/>
+            <Button text="Gérer les joueurs" onAction="#handleGererJoueurs"/>
+        </VBox>
+    </center>
+
+</BorderPane>
