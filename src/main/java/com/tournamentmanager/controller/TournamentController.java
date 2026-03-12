@@ -6,6 +6,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -24,6 +26,7 @@ public class TournamentController {
     @FXML private TableColumn<Tournament, String> colGame;
     @FXML private TableColumn<Tournament, String> colDate;
     @FXML private TableColumn<Tournament, String> colStatus;
+    @FXML private TableColumn<Tournament, Void> colAction;
 
     @FXML
     public void initialize() {
@@ -31,6 +34,24 @@ public class TournamentController {
         colGame.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue().getGame()));
         colDate.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue().getDate()));
         colStatus.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue().getStatus()));
+        colAction.setCellFactory(col -> new TableCell<>() {
+            private final Button btnSupprimer = new Button("Supprimer");
+
+            {
+                btnSupprimer.setOnAction(e -> {
+                    Tournament t = getTableView().getItems().get(getIndex());
+                    new TournamentDAO().delete(t.getId());
+                    loadTournaments();
+                });
+            }
+
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                setGraphic(empty ? null : btnSupprimer);
+            }
+        });
+
         loadTournaments();
     }
 

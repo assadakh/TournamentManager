@@ -24,6 +24,7 @@
                 <TableColumn text="Jeu" fx:id="colGame"/>
                 <TableColumn text="Date" fx:id="colDate"/>
                 <TableColumn text="Statut" fx:id="colStatus"/>
+                <TableColumn text="Action" fx:id="colAction"/>
             </columns>
         </TableView>
     </center>
