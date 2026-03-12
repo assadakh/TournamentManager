@@ -3,10 +3,16 @@ package com.tournamentmanager.controller;
 import com.tournamentmanager.dao.TournamentDAO;
 import com.tournamentmanager.model.Tournament;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -19,12 +25,12 @@ public class TournamentController {
     @FXML private TableColumn<Tournament, String> colDate;
     @FXML private TableColumn<Tournament, String> colStatus;
 
-    public void initialize(URL url, ResourceBundle rb) {
-        colName.setCellValueFactory(new PropertyValueFactory<>("name"));
-        colGame.setCellValueFactory(new PropertyValueFactory<>("game"));
-        colDate.setCellValueFactory(new PropertyValueFactory<>("date"));
-        colStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
-
+    @FXML
+    public void initialize() {
+        colName.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue().getName()));
+        colGame.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue().getGame()));
+        colDate.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue().getDate()));
+        colStatus.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue().getStatus()));
         loadTournaments();
     }
 
@@ -34,7 +40,16 @@ public class TournamentController {
     }
 
     @FXML
-    public void handleNouveauTournoi() {
-        System.out.println("Nouveau tournoi !");
+    public void handleNouveauTournoi() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/tournamentmanager/fxml/new_tournament.fxml"));
+        Parent root = loader.load();
+
+        Stage stage = new Stage();
+        stage.setTitle("Nouveau tournoi");
+        stage.initModality(Modality.APPLICATION_MODAL); // bloque la fenêtre principale
+        stage.setScene(new Scene(root));
+        stage.showAndWait(); // attend que la popup soit fermée
+
+        loadTournaments(); // rafraîchit la liste après fermeture
     }
 }
