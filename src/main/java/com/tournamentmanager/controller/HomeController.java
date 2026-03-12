@@ -21,7 +21,7 @@ public class HomeController implements Initializable {
     }
 
     @FXML
-    public void handleGererJoueurs() {
-        System.out.println("Gérer les joueurs");
+    public void handleGererJoueurs() throws IOException {
+        App.setRoot("fxml/players");
     }
 }
