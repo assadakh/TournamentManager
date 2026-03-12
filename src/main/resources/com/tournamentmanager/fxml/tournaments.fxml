@@ -14,6 +14,7 @@
         <HBox>
             <Label text="Mes tournois"/>
             <Button text="Nouveau tournoi" onAction="#handleNouveauTournoi"/>
+            <Button text="Retour" onAction="#handleRetour"/>
         </HBox>
     </top>
 
@@ -25,6 +26,7 @@
                 <TableColumn text="Date" fx:id="colDate"/>
                 <TableColumn text="Statut" fx:id="colStatus"/>
                 <TableColumn text="Action" fx:id="colAction"/>
+                <TableColumn text="Gérer" fx:id="colGerer"/>
             </columns>
         </TableView>
     </center>

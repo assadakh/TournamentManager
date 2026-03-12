@@ -1,5 +1,6 @@
 package com.tournamentmanager.controller;
 
+import com.tournamentmanager.App;
 import com.tournamentmanager.dao.TournamentDAO;
 import com.tournamentmanager.model.Tournament;
 import javafx.fxml.FXML;
@@ -10,7 +11,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -27,6 +27,7 @@ public class TournamentController {
     @FXML private TableColumn<Tournament, String> colDate;
     @FXML private TableColumn<Tournament, String> colStatus;
     @FXML private TableColumn<Tournament, Void> colAction;
+    @FXML private TableColumn<Tournament, Void> colGerer;
 
     @FXML
     public void initialize() {
@@ -34,6 +35,7 @@ public class TournamentController {
         colGame.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue().getGame()));
         colDate.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue().getDate()));
         colStatus.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue().getStatus()));
+
         colAction.setCellFactory(col -> new TableCell<>() {
             private final Button btnSupprimer = new Button("Supprimer");
 
@@ -49,6 +51,38 @@ public class TournamentController {
             protected void updateItem(Void item, boolean empty) {
                 super.updateItem(item, empty);
                 setGraphic(empty ? null : btnSupprimer);
+            }
+        });
+
+        colGerer.setCellFactory(col -> new TableCell<>() {
+            private final Button btnGerer = new Button("Gérer");
+
+            {
+                btnGerer.setOnAction(e -> {
+                    Tournament t = getTableView().getItems().get(getIndex());
+                    try {
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/tournamentmanager/fxml/manage_tournament.fxml"));
+                        Parent root = loader.load();
+                        ManageTournamentController controller = loader.getController();
+                        controller.setTournament(t);
+
+                        Stage stage = new Stage();
+                        stage.setTitle("Gérer le tournoi");
+                        stage.initModality(Modality.APPLICATION_MODAL);
+                        stage.setScene(new Scene(root));
+                        stage.showAndWait();
+
+                        loadTournaments();
+                    } catch (IOException ex) {
+                        System.out.println("Erreur : " + ex.getMessage());
+                    }
+                });
+            }
+
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                setGraphic(empty ? null : btnGerer);
             }
         });
 
@@ -72,5 +106,10 @@ public class TournamentController {
         stage.showAndWait(); // attend que la popup soit fermée
 
         loadTournaments(); // rafraîchit la liste après fermeture
+    }
+
+    @FXML
+    public void handleRetour() throws IOException {
+        App.setRoot("fxml/home");
     }
 }

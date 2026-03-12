@@ -14,6 +14,7 @@
         <HBox>
             <Label text="Mes joueurs"/>
             <Button text="Nouveau joueur" onAction="#handleNouveauJoueur"/>
+            <Button text="Retour" onAction="#handleRetour"/>
         </HBox>
     </top>
 

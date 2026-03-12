@@ -1,5 +1,6 @@
 package com.tournamentmanager.controller;
 
+import com.tournamentmanager.App;
 import com.tournamentmanager.dao.PlayerDAO;
 import com.tournamentmanager.model.Player;
 import javafx.fxml.FXML;
@@ -65,5 +66,10 @@ public class PlayerController {
         stage.showAndWait(); // attend que la popup soit fermée
 
         loadPlayers(); // rafraîchit la liste après fermeture
+    }
+
+    @FXML
+    public void handleRetour() throws IOException {
+        App.setRoot("fxml/home");
     }
 }

@@ -47,11 +47,22 @@ public class DatabaseManager {
             )
         """;
 
+        String createTournamentPlayers = """
+            CREATE TABLE IF NOT EXISTS tournament_players (
+                tournament_id INTEGER NOT NULL,
+                player_id INTEGER NOT NULL,
+                PRIMARY KEY (tournament_id, player_id),
+                FOREIGN KEY (tournament_id) REFERENCES tournaments(id),
+                FOREIGN KEY (player_id) REFERENCES players(id)
+            )
+        """;
+
         try (Connection conn = getConnection();
              Statement stmt = conn.createStatement()) {
             stmt.execute(createPlayers);
             stmt.execute(createTournaments);
             stmt.execute(createMatches);
+            stmt.execute(createTournamentPlayers);
             System.out.println("Base de données initialisée.");
         } catch (SQLException e) {
             System.out.println("Erreur init BDD : " + e.getMessage());

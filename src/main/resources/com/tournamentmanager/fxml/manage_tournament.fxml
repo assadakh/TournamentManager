@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Button?>
+
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.tournamentmanager.controller.ManageTournamentController"
+      spacing="10">
+
+    <Label fx:id="labelTournament" text="Gestion du tournoi"/>
+
+    <Label text="Joueurs inscrits :"/>
+    <ListView fx:id="listPlayers"/>
+
+    <Label text="Ajouter un joueur :"/>
+    <HBox spacing="10">
+        <ComboBox fx:id="comboPlayers"/>
+        <Button text="Ajouter" onAction="#handleAjouterJoueur"/>
+    </HBox>
+
+    <Button text="Générer le bracket" onAction="#handleGenererBracket"/>
+
+</VBox>
