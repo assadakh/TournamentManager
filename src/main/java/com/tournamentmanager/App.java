@@ -1,7 +1,6 @@
 package com.tournamentmanager;
 
 import com.tournamentmanager.dao.DatabaseManager;
-import com.tournamentmanager.dao.DatabaseManager;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

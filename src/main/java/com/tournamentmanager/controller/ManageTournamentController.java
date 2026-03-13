@@ -1,10 +1,12 @@
 package com.tournamentmanager.controller;
 
+import com.tournamentmanager.dao.MatchDAO;
 import com.tournamentmanager.dao.PlayerDAO;
-import com.tournamentmanager.dao.TournamentDAO;
 import com.tournamentmanager.dao.TournamentPlayerDAO;
+import com.tournamentmanager.model.Match;
 import com.tournamentmanager.model.Player;
 import com.tournamentmanager.model.Tournament;
+import com.tournamentmanager.util.BracketGenerator;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -47,6 +49,16 @@ public class ManageTournamentController {
 
     @FXML
     public void handleGenererBracket() {
-        System.out.println("Génération du bracket !");
+        List<Player> players = new TournamentPlayerDAO().getPlayers(tournament.getId());
+        if (players.size() < 2) {
+            System.out.println("Pas assez de joueurs !");
+        } else {
+            List<Match> matches = BracketGenerator.generateFirstRound(players, tournament.getId());
+            MatchDAO matchDAO = new MatchDAO();
+            for (Match m : matches) {
+                matchDAO.create(m);
+            }
+            System.out.println("Bracket généré !");
+        }
     }
 }
