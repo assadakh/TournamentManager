@@ -13,6 +13,7 @@
     <top>
         <HBox>
             <Label text="Bracket"/>
+            <Button text="Exporter PDF" onAction="#handleExportPdf"/>
             <Button text="Retour" onAction="#handleRetour"/>
         </HBox>
     </top>

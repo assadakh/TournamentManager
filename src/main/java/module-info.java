@@ -4,6 +4,7 @@ module com.tournamentmanager {
     requires java.sql;
     requires org.xerial.sqlitejdbc;
     requires org.slf4j;
+    requires org.apache.pdfbox;
 
     opens com.tournamentmanager to javafx.fxml;
     opens com.tournamentmanager.controller to javafx.fxml;

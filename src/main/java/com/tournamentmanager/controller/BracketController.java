@@ -1,10 +1,10 @@
 package com.tournamentmanager.controller;
 
-import com.tournamentmanager.App;
 import com.tournamentmanager.dao.MatchDAO;
 import com.tournamentmanager.model.Match;
 import com.tournamentmanager.model.Player;
 import com.tournamentmanager.model.Tournament;
+import com.tournamentmanager.util.PdfExporter;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
@@ -81,6 +81,12 @@ public class BracketController {
     public void loadMatches() {
         List<Match> matches = new MatchDAO().findByTournaments(tournament.getId());
         tableBracket.getItems().setAll(matches);
+    }
+
+    @FXML
+    public void handleExportPdf() {
+        List<Match> matches = tableBracket.getItems();
+        PdfExporter.export(matches, tournament);
     }
 
     @FXML
