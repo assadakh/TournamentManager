@@ -56,28 +56,32 @@ public class ManageTournamentController {
 
     @FXML
     public void handleGenererBracket() throws IOException {
-        List<Player> players = new TournamentPlayerDAO().getPlayers(tournament.getId());
-        if (players.size() < 2) {
-            System.out.println("Pas assez de joueurs !");
-        } else {
-            new MatchDAO().deleteByTournament(tournament.getId());
+        List<Match> existingMatches = new MatchDAO().findByTournaments(tournament.getId());
+
+        if (existingMatches.isEmpty()) {
+            // Pas de bracket existant -> on en génère un nouveau
+            List<Player> players = new TournamentPlayerDAO().getPlayers(tournament.getId());
+            if (players.size() < 2) {
+                System.out.println("Pas assez de joueurs !");
+                return;
+            }
             List<Match> matches = BracketGenerator.generateFirstRound(players, tournament.getId());
             MatchDAO matchDAO = new MatchDAO();
             for (Match m : matches) {
                 matchDAO.create(m);
             }
-
-            System.out.println("Bracket généré !");
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/tournamentmanager/fxml/bracket.fxml"));
-            Parent root = loader.load();
-            BracketController controller = loader.getController();
-            controller.setTournament(tournament);
-
-            Stage stage = new Stage();
-            stage.setTitle("Bracket - " + tournament.getName());
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.setScene(new Scene(root));
-            stage.show();
         }
+
+        // Ouvre le bracket dans tous les cas
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/tournamentmanager/fxml/bracket.fxml"));
+        Parent root = loader.load();
+        BracketController controller = loader.getController();
+        controller.setTournament(tournament);
+
+        Stage stage = new Stage();
+        stage.setTitle("Bracket - " + tournament.getName());
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setScene(new Scene(root));
+        stage.show();
     }
 }

@@ -8,10 +8,14 @@ import com.tournamentmanager.model.Tournament;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -42,7 +46,22 @@ public class BracketController {
             {
                 btnDefWinner.setOnAction(e -> {
                     Match m = getTableView().getItems().get(getIndex());
-                    System.out.println("Définir gagnant pour match : " + m.getId());
+                    try {
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/tournamentmanager/fxml/choose_winner.fxml"));
+                        Parent root = loader.load();
+                        ChooseWinnerController controller = loader.getController();
+                        controller.setMatch(m);
+
+                        Stage stage = new Stage();
+                        stage.setTitle("Choisir le gagnant");
+                        stage.initModality(Modality.APPLICATION_MODAL);
+                        stage.setScene(new Scene(root));
+                        stage.showAndWait();
+
+                        loadMatches(); // rafraîchit le bracket
+                    } catch (IOException ex) {
+                        System.out.println("Erreur : " + ex.getMessage());
+                    }
                 });
             }
 

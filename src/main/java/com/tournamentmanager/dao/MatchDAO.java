@@ -24,12 +24,14 @@ public class MatchDAO {
 
     public List<Match> findByTournaments(int tournamentId) {
         List<Match> matches = new ArrayList<>();
-        String sql = "SELECT m.*, \n" +
-                "       p1.name as player1_name, \n" +
-                "       p2.name as player2_name\n" +
-                "FROM matches m\n" +
-                "JOIN players p1 ON m.player1_id = p1.id\n" +
-                "JOIN players p2 ON m.player2_id = p2.id\n" +
+        String sql = "SELECT m.*, " +
+                "p1.name as player1_name, " +
+                "p2.name as player2_name, " +
+                "p3.name as winner_name " +
+                "FROM matches m " +
+                "JOIN players p1 ON m.player1_id = p1.id " +
+                "JOIN players p2 ON m.player2_id = p2.id " +
+                "LEFT JOIN players p3 ON m.winner_id = p3.id " +
                 "WHERE m.tournament_id = ?";
 
         try (Connection conn = DatabaseManager.getConnection();
@@ -40,6 +42,15 @@ public class MatchDAO {
                 Player player1 = new Player(rs.getInt("player1_id"), rs.getString("player1_name"), "");
                 Player player2 = new Player(rs.getInt("player2_id"), rs.getString("player2_name"), "");
                 Match newMatch = new Match(rs.getInt("tournament_id"), rs.getInt("round"), player1, player2);
+                newMatch.setId(rs.getInt("id"));
+
+                // Ajout du gagnant
+                String winnerName = rs.getString("winner_name");
+                if (winnerName != null) {
+                    Player winner = new Player(rs.getInt("winner_id"), winnerName, "");
+                    newMatch.setWinner(winner);
+                }
+
                 matches.add(newMatch);
             }
         } catch (SQLException e) {
