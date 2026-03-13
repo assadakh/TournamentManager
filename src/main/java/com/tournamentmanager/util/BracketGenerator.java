@@ -20,4 +20,16 @@ public class BracketGenerator {
         }
         return matches;
     }
+
+    public static List<Match> generateNextRound(List<Match> previousRound, int tournamentId) {
+        List<Match> matches = new ArrayList<>();
+        int round = previousRound.getFirst().getRound() + 1;
+        for (int i = 0; i < previousRound.size() - 1; i += 2) {
+            Player p1 = previousRound.get(i).getWinner();
+            Player p2 = previousRound.get(i + 1).getWinner();
+            Match newMatch = new Match(tournamentId, round, p1, p2);
+            matches.add(newMatch);
+        }
+        return matches;
+    }
 }

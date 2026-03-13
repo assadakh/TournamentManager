@@ -52,6 +52,7 @@ public class BracketController {
                         Parent root = loader.load();
                         ChooseWinnerController controller = loader.getController();
                         controller.setMatch(m);
+                        controller.setTournament(tournament);
 
                         Stage stage = new Stage();
                         stage.setTitle("Choisir le gagnant");
