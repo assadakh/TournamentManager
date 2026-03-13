@@ -1,5 +1,6 @@
 package com.tournamentmanager.controller;
 
+import com.tournamentmanager.App;
 import com.tournamentmanager.dao.MatchDAO;
 import com.tournamentmanager.model.Match;
 import com.tournamentmanager.model.Player;
@@ -55,10 +56,13 @@ public class BracketController {
                         Stage stage = new Stage();
                         stage.setTitle("Choisir le gagnant");
                         stage.initModality(Modality.APPLICATION_MODAL);
-                        stage.setScene(new Scene(root));
-                        stage.showAndWait();
 
-                        loadMatches(); // rafraîchit le bracket
+                        Scene scene = new Scene(root);
+                        App.applyCSS(scene);
+                        stage.setScene(scene);
+
+                        stage.showAndWait();
+                        loadMatches();
                     } catch (IOException ex) {
                         System.out.println("Erreur : " + ex.getMessage());
                     }

@@ -19,6 +19,7 @@ public class App extends Application {
     public void start(Stage stage) throws IOException {
         DatabaseManager.initDatabase(); // initialise la BDD au démarrage
         scene = new Scene(loadFXML("fxml/home"), 900, 600);
+        scene.getStylesheets().add(getClass().getResource("/com/tournamentmanager/style.css").toExternalForm());
         stage.setTitle("Tournament Manager");
         stage.setScene(scene);
         stage.show();
@@ -31,6 +32,10 @@ public class App extends Application {
     private static Parent loadFXML(String fxml) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
         return fxmlLoader.load();
+    }
+
+    public static void applyCSS(Scene scene) {
+        scene.getStylesheets().add(App.class.getResource("/com/tournamentmanager/style.css").toExternalForm());
     }
 
     public static void main(String[] args) {

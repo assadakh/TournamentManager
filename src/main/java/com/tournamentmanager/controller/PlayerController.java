@@ -62,11 +62,14 @@ public class PlayerController {
 
         Stage stage = new Stage();
         stage.setTitle("Nouveau joueur");
-        stage.initModality(Modality.APPLICATION_MODAL); // bloque la fenêtre principale
-        stage.setScene(new Scene(root));
-        stage.showAndWait(); // attend que la popup soit fermée
+        stage.initModality(Modality.APPLICATION_MODAL);
 
-        loadPlayers(); // rafraîchit la liste après fermeture
+        Scene scene = new Scene(root);
+        App.applyCSS(scene);
+        stage.setScene(scene);
+
+        stage.showAndWait();
+        loadPlayers();
     }
 
     @FXML

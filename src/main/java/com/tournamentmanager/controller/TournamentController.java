@@ -69,9 +69,12 @@ public class TournamentController {
                         Stage stage = new Stage();
                         stage.setTitle("Gérer le tournoi");
                         stage.initModality(Modality.APPLICATION_MODAL);
-                        stage.setScene(new Scene(root));
-                        stage.showAndWait();
 
+                        Scene scene = new Scene(root);
+                        App.applyCSS(scene);
+                        stage.setScene(scene);
+
+                        stage.showAndWait();
                         loadTournaments();
                     } catch (IOException ex) {
                         System.out.println("Erreur : " + ex.getMessage());

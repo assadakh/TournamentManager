@@ -40,9 +40,13 @@ public class ManageTournamentController {
     }
 
     public void loadJoueurs() {
-        List<Player> dao = new PlayerDAO().findAll();
-        listPlayers.getItems().setAll(dao);
-        comboPlayers.getItems().setAll(dao);
+        // Liste des joueurs inscrits au tournoi
+        List<Player> inscrits = new TournamentPlayerDAO().getPlayers(tournament.getId());
+        listPlayers.getItems().setAll(inscrits);
+
+        // Tous les joueurs disponibles dans le ComboBox
+        List<Player> tous = new PlayerDAO().findAll();
+        comboPlayers.getItems().setAll(tous);
     }
 
     @FXML
@@ -81,7 +85,11 @@ public class ManageTournamentController {
         Stage stage = new Stage();
         stage.setTitle("Bracket - " + tournament.getName());
         stage.initModality(Modality.APPLICATION_MODAL);
-        stage.setScene(new Scene(root));
+
+        Scene scene = new Scene(root);
+        App.applyCSS(scene);
+        stage.setScene(scene);
+
         stage.show();
     }
 }
