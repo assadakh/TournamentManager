@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Button?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.tournamentmanager.controller.BracketController">
+
+    <top>
+        <HBox>
+            <Label text="Bracket"/>
+            <Button text="Retour" onAction="#handleRetour"/>
+        </HBox>
+    </top>
+
+    <center>
+        <TableView fx:id="tableBracket">
+            <columns>
+                <TableColumn text="Round" fx:id="colRound"/>
+                <TableColumn text="Joueur1" fx:id="colPlayer1"/>
+                <TableColumn text="Joueur2" fx:id="colPlayer2"/>
+                <TableColumn text="Gagnant" fx:id="colWinner"/>
+                <TableColumn text="Action" fx:id="colAction"/>
+            </columns>
+        </TableView>
+    </center>
+
+</BorderPane>

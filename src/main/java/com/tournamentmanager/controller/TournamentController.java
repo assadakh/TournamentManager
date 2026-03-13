@@ -3,6 +3,7 @@ package com.tournamentmanager.controller;
 import com.tournamentmanager.App;
 import com.tournamentmanager.dao.TournamentDAO;
 import com.tournamentmanager.model.Tournament;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -30,10 +31,10 @@ public class TournamentController {
 
     @FXML
     public void initialize() {
-        colName.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue().getName()));
-        colGame.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue().getGame()));
-        colDate.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue().getDate()));
-        colStatus.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue().getStatus()));
+        colName.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getName()));
+        colGame.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getGame()));
+        colDate.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getDate()));
+        colStatus.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getStatus()));
 
         colAction.setCellFactory(col -> new TableCell<>() {
             private final Button btnSupprimer = new Button("Supprimer");

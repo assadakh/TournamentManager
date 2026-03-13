@@ -24,15 +24,21 @@ public class MatchDAO {
 
     public List<Match> findByTournaments(int tournamentId) {
         List<Match> matches = new ArrayList<>();
-        String sql = "SELECT * FROM matches WHERE tournament_id = ?";
+        String sql = "SELECT m.*, \n" +
+                "       p1.name as player1_name, \n" +
+                "       p2.name as player2_name\n" +
+                "FROM matches m\n" +
+                "JOIN players p1 ON m.player1_id = p1.id\n" +
+                "JOIN players p2 ON m.player2_id = p2.id\n" +
+                "WHERE m.tournament_id = ?";
 
         try (Connection conn = DatabaseManager.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, tournamentId); // ← on passe le paramètre ici
             ResultSet rs = ps.executeQuery(); // ← PUIS on exécute
             while (rs.next()) {
-                Player player1 = new Player(rs.getInt("player1_id"), "", "");
-                Player player2 = new Player(rs.getInt("player2_id"), "", "");
+                Player player1 = new Player(rs.getInt("player1_id"), rs.getString("player1_name"), "");
+                Player player2 = new Player(rs.getInt("player2_id"), rs.getString("player2_name"), "");
                 Match newMatch = new Match(rs.getInt("tournament_id"), rs.getInt("round"), player1, player2);
                 matches.add(newMatch);
             }
@@ -60,6 +66,17 @@ public class MatchDAO {
         try (Connection conn = DatabaseManager.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, id);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Erreur : " + e.getMessage());
+        }
+    }
+
+    public void deleteByTournament(int tournamentId) {
+        String sql = "DELETE FROM matches WHERE tournament_id = ?";
+        try (Connection conn = DatabaseManager.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, tournamentId);
             ps.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Erreur : " + e.getMessage());

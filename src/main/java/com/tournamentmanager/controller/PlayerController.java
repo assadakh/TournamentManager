@@ -3,6 +3,7 @@ package com.tournamentmanager.controller;
 import com.tournamentmanager.App;
 import com.tournamentmanager.dao.PlayerDAO;
 import com.tournamentmanager.model.Player;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -26,8 +27,8 @@ public class PlayerController {
 
     @FXML
     public void initialize() {
-        colName.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue().getName()));
-        colGame.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue().getGame()));
+        colName.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getName()));
+        colGame.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getGame()));
         colAction.setCellFactory(col -> new TableCell<>() {
             private final Button btnSupprimer = new Button("Supprimer");
 

@@ -1,5 +1,6 @@
 package com.tournamentmanager.controller;
 
+import com.tournamentmanager.App;
 import com.tournamentmanager.dao.MatchDAO;
 import com.tournamentmanager.dao.PlayerDAO;
 import com.tournamentmanager.dao.TournamentPlayerDAO;
@@ -8,10 +9,16 @@ import com.tournamentmanager.model.Player;
 import com.tournamentmanager.model.Tournament;
 import com.tournamentmanager.util.BracketGenerator;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.List;
 
 public class ManageTournamentController {
@@ -48,17 +55,29 @@ public class ManageTournamentController {
     }
 
     @FXML
-    public void handleGenererBracket() {
+    public void handleGenererBracket() throws IOException {
         List<Player> players = new TournamentPlayerDAO().getPlayers(tournament.getId());
         if (players.size() < 2) {
             System.out.println("Pas assez de joueurs !");
         } else {
+            new MatchDAO().deleteByTournament(tournament.getId());
             List<Match> matches = BracketGenerator.generateFirstRound(players, tournament.getId());
             MatchDAO matchDAO = new MatchDAO();
             for (Match m : matches) {
                 matchDAO.create(m);
             }
+
             System.out.println("Bracket généré !");
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/tournamentmanager/fxml/bracket.fxml"));
+            Parent root = loader.load();
+            BracketController controller = loader.getController();
+            controller.setTournament(tournament);
+
+            Stage stage = new Stage();
+            stage.setTitle("Bracket - " + tournament.getName());
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setScene(new Scene(root));
+            stage.show();
         }
     }
 }
