@@ -16,7 +16,6 @@ public class TournamentPlayerDAO {
             ResultSet rs = ps.executeQuery();
             return rs.next() && rs.getInt(1) > 0;
         } catch (SQLException e) {
-            System.out.println("Erreur : " + e.getMessage());
             return false;
         }
     }
@@ -29,7 +28,6 @@ public class TournamentPlayerDAO {
             ps.setInt(2, playerId);
             ps.executeUpdate();
         } catch (SQLException e) {
-            System.out.println("Erreur : " + e.getMessage());
         }
     }
 
@@ -41,7 +39,6 @@ public class TournamentPlayerDAO {
             ps.setInt(2, playerId);
             ps.executeUpdate();
         } catch (SQLException e) {
-            System.out.println("Erreur : " + e.getMessage());
         }
     }
 
@@ -58,7 +55,6 @@ public class TournamentPlayerDAO {
                 players.add(newPlayer);
             }
         } catch (SQLException e) {
-            System.out.println("Erreur : " + e.getMessage());
         }
 
         return players;

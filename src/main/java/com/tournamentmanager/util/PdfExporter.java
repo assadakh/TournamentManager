@@ -45,7 +45,6 @@ public class PdfExporter {
 
     public static void export(List<Match> matches, Tournament tournament) {
         if (matches == null || matches.isEmpty()) {
-            System.out.println("Pas de matchs à exporter.");
             return;
         }
 
@@ -68,10 +67,8 @@ public class PdfExporter {
 
             String filename = "bracket_" + tournament.getName() + ".pdf";
             document.save(filename);
-            System.out.println("PDF exporté : " + filename);
 
         } catch (IOException e) {
-            System.out.println("Erreur PDF : " + e.getMessage());
         }
     }
 

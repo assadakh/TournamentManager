@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
@@ -77,7 +78,7 @@ public class TournamentController {
                         stage.showAndWait();
                         loadTournaments();
                     } catch (IOException ex) {
-                        System.out.println("Erreur : " + ex.getMessage());
+                        showError("Une erreur est survenue. Veuillez réessayer.");
                     }
                 });
             }
@@ -114,5 +115,13 @@ public class TournamentController {
     @FXML
     public void handleRetour() throws IOException {
         App.setRoot("fxml/home");
+    }
+
+    private void showError(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Erreur");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }

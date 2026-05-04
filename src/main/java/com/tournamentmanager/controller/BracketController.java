@@ -11,6 +11,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -272,7 +273,7 @@ public class BracketController {
 
             loadMatches();
         } catch (IOException ex) {
-            System.out.println("Erreur : " + ex.getMessage());
+            showError("Une erreur est survenue. Veuillez réessayer.");
         }
     }
 
@@ -285,5 +286,13 @@ public class BracketController {
     public void handleRetour() {
         Stage stage = (Stage) bracketPane.getScene().getWindow();
         stage.close();
+    }
+
+    private void showError(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Erreur");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }

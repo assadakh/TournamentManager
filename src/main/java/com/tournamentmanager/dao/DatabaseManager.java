@@ -63,9 +63,7 @@ public class DatabaseManager {
             stmt.execute(createTournaments);
             stmt.execute(createMatches);
             stmt.execute(createTournamentPlayers);
-            System.out.println("Base de données initialisée.");
         } catch (SQLException e) {
-            System.out.println("Erreur init BDD : " + e.getMessage());
         }
     }
 }

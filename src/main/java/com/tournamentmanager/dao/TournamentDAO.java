@@ -17,7 +17,6 @@ public class TournamentDAO {
             ps.setString(4, t.getStatus());
             ps.executeUpdate();
         } catch (SQLException e) {
-            System.out.println("Erreur : " + e.getMessage());
         }
     }
 
@@ -33,7 +32,6 @@ public class TournamentDAO {
                 tournaments.add(newTournament);
             }
         } catch (SQLException e) {
-            System.out.println("Erreur : " + e.getMessage());
         }
 
         return tournaments;
@@ -47,7 +45,6 @@ public class TournamentDAO {
             ps.setInt(2, t.getId());
             ps.executeUpdate();
         } catch (SQLException e) {
-            System.out.println("Erreur : " + e.getMessage());
         }
     }
 
@@ -58,7 +55,6 @@ public class TournamentDAO {
             ps.setInt(1, id);
             ps.executeUpdate();
         } catch (SQLException e) {
-            System.out.println("Erreur : " + e.getMessage());
         }
     }
 }

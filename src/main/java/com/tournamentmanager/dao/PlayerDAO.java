@@ -14,7 +14,6 @@ public class PlayerDAO {
             ps.setString(2, p.getGame());
             ps.executeUpdate();
         } catch (SQLException e) {
-            System.out.println("Erreur : " + e.getMessage());
         }
     }
 
@@ -30,7 +29,6 @@ public class PlayerDAO {
                 players.add(newPlayer);
             }
         } catch (SQLException e) {
-            System.out.println("Erreur : " + e.getMessage());
         }
 
         return players;
@@ -45,7 +43,6 @@ public class PlayerDAO {
             ps.setInt(3, p.getId());
             ps.executeUpdate();
         } catch (SQLException e) {
-            System.out.println("Erreur : " + e.getMessage());
         }
     }
 
@@ -56,7 +53,6 @@ public class PlayerDAO {
             ps.setInt(1, id);
             ps.executeUpdate();
         } catch (SQLException e) {
-            System.out.println("Erreur : " + e.getMessage());
         }
     }
 }

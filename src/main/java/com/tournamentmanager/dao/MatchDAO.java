@@ -18,7 +18,6 @@ public class MatchDAO {
             ps.setInt(4, m.getPlayer2().getId());
             ps.executeUpdate();
         } catch (SQLException e) {
-            System.out.println("Erreur : " + e.getMessage());
         }
     }
 
@@ -54,7 +53,6 @@ public class MatchDAO {
                 matches.add(newMatch);
             }
         } catch (SQLException e) {
-            System.out.println("Erreur : " + e.getMessage());
         }
 
         return matches;
@@ -68,7 +66,6 @@ public class MatchDAO {
             ps.setInt(2, m.getId());
             ps.executeUpdate();
         } catch (SQLException e) {
-            System.out.println("Erreur : " + e.getMessage());
         }
     }
 
@@ -79,7 +76,6 @@ public class MatchDAO {
             ps.setInt(1, id);
             ps.executeUpdate();
         } catch (SQLException e) {
-            System.out.println("Erreur : " + e.getMessage());
         }
     }
 
@@ -90,7 +86,6 @@ public class MatchDAO {
             ps.setInt(1, tournamentId);
             ps.executeUpdate();
         } catch (SQLException e) {
-            System.out.println("Erreur : " + e.getMessage());
         }
     }
 }
