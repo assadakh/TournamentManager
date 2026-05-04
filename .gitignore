@@ -38,6 +38,9 @@ build/
 ### Mac OS ###
 .DS_Store
 
+### Base de données locale ###
+tournament.db
+
 ### Bracket exports ###
 bracket_*.pdf
 
