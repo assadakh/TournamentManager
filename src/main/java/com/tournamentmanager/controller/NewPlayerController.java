@@ -17,12 +17,21 @@ public class NewPlayerController {
         String name = fieldName.getText().trim();
         String game = fieldGame.getText().trim();
 
+        // Validation 1 : Vérifier que les champs ne sont pas vides
         if (name.isEmpty() || game.isEmpty()) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erreur");
-            alert.setHeaderText(null);
-            alert.setContentText("Veuillez remplir tous les champs !");
-            alert.showAndWait();
+            showError("Veuillez remplir tous les champs !");
+            return;
+        }
+
+        // Validation 2 : Vérifier la longueur minimale (au moins 2 caractères)
+        if (name.length() < 2 || game.length() < 2) {
+            showError("Le nom et le jeu doivent contenir au moins 2 caractères !");
+            return;
+        }
+
+        // Validation 3 : Vérifier la longueur maximale (max 50 caractères)
+        if (name.length() > 50 || game.length() > 50) {
+            showError("Le nom et le jeu ne peuvent pas dépasser 50 caractères !");
             return;
         }
 
@@ -35,6 +44,15 @@ public class NewPlayerController {
 
         Stage stage = (Stage) fieldName.getScene().getWindow();
         stage.close();
+    }
+
+    // Méthode pour afficher les messages d'erreur (évite de répéter le code)
+    private void showError(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Erreur de saisie");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 
     @FXML
