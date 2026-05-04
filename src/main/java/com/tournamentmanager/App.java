@@ -1,6 +1,7 @@
 package com.tournamentmanager;
 
 import com.tournamentmanager.dao.DatabaseManager;
+import com.tournamentmanager.util.Seeder;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -17,7 +18,8 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        DatabaseManager.initDatabase(); // initialise la BDD au démarrage
+        DatabaseManager.initDatabase();
+        Seeder.seedIfEmpty();
         scene = new Scene(loadFXML("fxml/home"), 900, 600);
         scene.getStylesheets().add(getClass().getResource("/com/tournamentmanager/style.css").toExternalForm());
         stage.setTitle("Tournament Manager");

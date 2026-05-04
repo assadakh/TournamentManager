@@ -31,7 +31,7 @@ public class Tournament {
         this.name = name;
         this.game = game;
         this.date = date;
-        this.status = "En cours";
+        this.status = "En attente";
         this.players = new ArrayList<>();
     }
 

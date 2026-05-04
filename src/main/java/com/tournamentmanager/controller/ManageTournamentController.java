@@ -3,6 +3,7 @@ package com.tournamentmanager.controller;
 import com.tournamentmanager.App;
 import com.tournamentmanager.dao.MatchDAO;
 import com.tournamentmanager.dao.PlayerDAO;
+import com.tournamentmanager.dao.TournamentDAO;
 import com.tournamentmanager.dao.TournamentPlayerDAO;
 import com.tournamentmanager.model.Match;
 import com.tournamentmanager.model.Player;
@@ -93,6 +94,8 @@ public class ManageTournamentController {
             for (Match m : matches) {
                 matchDAO.create(m);
             }
+            tournament.setStatus("En cours");
+            new TournamentDAO().update(tournament);
         }
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/tournamentmanager/fxml/bracket.fxml"));
