@@ -4,7 +4,6 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Button?>
 <?import javafx.geometry.Insets?>
 
@@ -21,16 +20,32 @@
     <!-- Contenu -->
     <VBox spacing="15" style="-fx-padding: 20;">
 
-        <Label text="Joueurs inscrits :"
-               style="-fx-font-weight: bold; -fx-font-size: 14px;"/>
-        <ListView fx:id="listPlayers" prefHeight="180"/>
+        <HBox spacing="15" alignment="CENTER">
 
-        <Label text="Ajouter un joueur :"
-               style="-fx-font-weight: bold; -fx-font-size: 14px;"/>
-        <HBox spacing="10" alignment="CENTER_LEFT">
-            <ComboBox fx:id="comboPlayers" prefWidth="200"/>
-            <Button text="➕  Ajouter" onAction="#handleAjouterJoueur"/>
+            <!-- Liste gauche : disponibles -->
+            <VBox spacing="5" HBox.hgrow="ALWAYS">
+                <Label text="Joueurs disponibles :"
+                       style="-fx-font-weight: bold; -fx-font-size: 14px;"/>
+                <ListView fx:id="listDisponibles" prefHeight="200" prefWidth="200"/>
+            </VBox>
+
+            <!-- Boutons flèches -->
+            <VBox spacing="10" alignment="CENTER">
+                <Button text=">" onAction="#handleAjouterJoueur" prefWidth="40"
+                        style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+                <Button text="&lt;" onAction="#handleRetirerJoueur" prefWidth="40"
+                        style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+            </VBox>
+
+            <!-- Liste droite : inscrits -->
+            <VBox spacing="5" HBox.hgrow="ALWAYS">
+                <Label text="Joueurs inscrits :"
+                       style="-fx-font-weight: bold; -fx-font-size: 14px;"/>
+                <ListView fx:id="listInscrits" prefHeight="200" prefWidth="200"/>
+            </VBox>
+
         </HBox>
+
         <Label fx:id="labelError" style="-fx-text-fill: #e74c3c; -fx-font-size: 13px;"/>
 
         <Button text="🏆  Générer le bracket"

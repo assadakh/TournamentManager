@@ -21,6 +21,18 @@ public class TournamentPlayerDAO {
         }
     }
 
+    public void removePlayer(int tournamentId, int playerId) {
+        String sql = "DELETE FROM tournament_players WHERE tournament_id = ? AND player_id = ?";
+        try (Connection conn = DatabaseManager.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, tournamentId);
+            ps.setInt(2, playerId);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Erreur : " + e.getMessage());
+        }
+    }
+
     public void addPlayer(int tournamentId, int playerId) {
         String sql = "INSERT INTO tournament_players (tournament_id, player_id) VALUES (?, ?)";
         try (Connection conn = DatabaseManager.getConnection();

@@ -12,19 +12,20 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.SelectionMode;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ManageTournamentController {
 
-    @FXML private ListView<Player> listPlayers;
-    @FXML private ComboBox<Player> comboPlayers;
+    @FXML private ListView<Player> listDisponibles;
+    @FXML private ListView<Player> listInscrits;
     @FXML private Label labelTournament;
     @FXML private Label labelError;
     private Tournament tournament;
@@ -37,31 +38,43 @@ public class ManageTournamentController {
     public void setTournament(Tournament t) {
         this.tournament = t;
         labelTournament.setText("Gestion : " + t.getName());
+        listDisponibles.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        listInscrits.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         loadJoueurs();
     }
 
     public void loadJoueurs() {
-        // Liste des joueurs inscrits au tournoi
         List<Player> inscrits = new TournamentPlayerDAO().getPlayers(tournament.getId());
-        listPlayers.getItems().setAll(inscrits);
-
-        // Tous les joueurs disponibles dans le ComboBox
         List<Player> tous = new PlayerDAO().findAll();
-        comboPlayers.getItems().setAll(tous);
+        List<Player> disponibles = tous.stream()
+                .filter(p -> inscrits.stream().noneMatch(i -> i.getId() == p.getId()))
+                .collect(Collectors.toList());
+
+        listInscrits.getItems().setAll(inscrits);
+        listDisponibles.getItems().setAll(disponibles);
     }
 
     @FXML
     public void handleAjouterJoueur() {
-        Player joueur = comboPlayers.getValue();
+        List<Player> selection = List.copyOf(listDisponibles.getSelectionModel().getSelectedItems());
         labelError.setText("");
-        if (joueur == null) return;
-
+        if (selection.isEmpty()) return;
         TournamentPlayerDAO dao = new TournamentPlayerDAO();
-        if (dao.isPlayerInTournament(tournament.getId(), joueur.getId())) {
-            labelError.setText("Ce joueur est déjà inscrit dans ce tournoi.");
-            return;
+        for (Player joueur : selection) {
+            dao.addPlayer(tournament.getId(), joueur.getId());
         }
-        dao.addPlayer(tournament.getId(), joueur.getId());
+        loadJoueurs();
+    }
+
+    @FXML
+    public void handleRetirerJoueur() {
+        List<Player> selection = List.copyOf(listInscrits.getSelectionModel().getSelectedItems());
+        labelError.setText("");
+        if (selection.isEmpty()) return;
+        TournamentPlayerDAO dao = new TournamentPlayerDAO();
+        for (Player joueur : selection) {
+            dao.removePlayer(tournament.getId(), joueur.getId());
+        }
         loadJoueurs();
     }
 
@@ -70,10 +83,9 @@ public class ManageTournamentController {
         List<Match> existingMatches = new MatchDAO().findByTournaments(tournament.getId());
 
         if (existingMatches.isEmpty()) {
-            // Pas de bracket existant -> on en génère un nouveau
             List<Player> players = new TournamentPlayerDAO().getPlayers(tournament.getId());
             if (players.size() < 2) {
-                System.out.println("Pas assez de joueurs !");
+                labelError.setText("Il faut au moins 2 joueurs pour générer un bracket.");
                 return;
             }
             List<Match> matches = BracketGenerator.generateFirstRound(players, tournament.getId());
@@ -83,7 +95,6 @@ public class ManageTournamentController {
             }
         }
 
-        // Ouvre le bracket dans tous les cas
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/tournamentmanager/fxml/bracket.fxml"));
         Parent root = loader.load();
         BracketController controller = loader.getController();
