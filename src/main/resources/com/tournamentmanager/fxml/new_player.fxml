@@ -16,7 +16,7 @@
     </VBox>
 
     <VBox spacing="12" style="-fx-padding: 20;">
-        <TextField fx:id="fieldName" promptText="Nom du joueur"/>
+        <TextField fx:id="fieldName" promptText="Pseudo du joueur"/>
         <TextField fx:id="fieldGame" promptText="Jeu pratiqué"/>
         <HBox spacing="10" alignment="CENTER_RIGHT">
             <Button text="Annuler" onAction="#handleAnnuler"/>

@@ -27,7 +27,7 @@
         <VBox style="-fx-padding: 20;">
             <TableView fx:id="tablePlayers" VBox.vgrow="ALWAYS">
                 <columns>
-                    <TableColumn text="Nom" fx:id="colName" prefWidth="200"/>
+                    <TableColumn text="Pseudo" fx:id="colName" prefWidth="200"/>
                     <TableColumn text="Jeu" fx:id="colGame" prefWidth="200"/>
                     <TableColumn text="Action" fx:id="colAction" prefWidth="100"/>
                 </columns>
