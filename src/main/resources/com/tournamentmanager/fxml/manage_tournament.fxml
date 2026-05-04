@@ -31,6 +31,7 @@
             <ComboBox fx:id="comboPlayers" prefWidth="200"/>
             <Button text="➕  Ajouter" onAction="#handleAjouterJoueur"/>
         </HBox>
+        <Label fx:id="labelError" style="-fx-text-fill: #e74c3c; -fx-font-size: 13px;"/>
 
         <Button text="🏆  Générer le bracket"
                 onAction="#handleGenererBracket"

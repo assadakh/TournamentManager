@@ -26,6 +26,7 @@ public class ManageTournamentController {
     @FXML private ListView<Player> listPlayers;
     @FXML private ComboBox<Player> comboPlayers;
     @FXML private Label labelTournament;
+    @FXML private Label labelError;
     private Tournament tournament;
 
     @FXML
@@ -52,9 +53,15 @@ public class ManageTournamentController {
     @FXML
     public void handleAjouterJoueur() {
         Player joueur = comboPlayers.getValue();
-        if (joueur != null) {
-            new TournamentPlayerDAO().addPlayer(tournament.getId(), joueur.getId());
+        labelError.setText("");
+        if (joueur == null) return;
+
+        TournamentPlayerDAO dao = new TournamentPlayerDAO();
+        if (dao.isPlayerInTournament(tournament.getId(), joueur.getId())) {
+            labelError.setText("Ce joueur est déjà inscrit dans ce tournoi.");
+            return;
         }
+        dao.addPlayer(tournament.getId(), joueur.getId());
         loadJoueurs();
     }
 
