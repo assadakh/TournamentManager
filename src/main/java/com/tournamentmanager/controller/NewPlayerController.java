@@ -2,6 +2,7 @@ package com.tournamentmanager.controller;
 
 import com.tournamentmanager.dao.PlayerDAO;
 import com.tournamentmanager.model.Player;
+import com.tournamentmanager.util.InputValidator;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
@@ -17,27 +18,10 @@ public class NewPlayerController {
         String name = fieldName.getText().trim();
         String game = fieldGame.getText().trim();
 
-        // Validation 1 : Vérifier que les champs ne sont pas vides
-        if (name.isEmpty() || game.isEmpty()) {
-            showError("Veuillez remplir tous les champs !");
+        if (!InputValidator.isValidName(name) || !InputValidator.isValidName(game)) {
+            showError("Les champs doivent contenir entre 2 et 50 caractères (lettres, chiffres, espaces, tirets, apostrophes uniquement).");
             return;
         }
-
-        // Validation 2 : Vérifier la longueur minimale (au moins 2 caractères)
-        if (name.length() < 2 || game.length() < 2) {
-            showError("Le nom et le jeu doivent contenir au moins 2 caractères !");
-            return;
-        }
-
-        // Validation 3 : Vérifier la longueur maximale (max 50 caractères)
-        if (name.length() > 50 || game.length() > 50) {
-            showError("Le nom et le jeu ne peuvent pas dépasser 50 caractères !");
-            return;
-        }
-
-        //Test
-        System.out.println("Name: " + name);
-        System.out.println("Game: " + game);
 
         Player player = new Player(name, game);
         new PlayerDAO().create(player);
