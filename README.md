@@ -54,12 +54,25 @@ Le schéma SQLite applique des contraintes `CHECK` indépendamment de l'applicat
 | `matches`     | `round >= 1`                                            |
 | `matches`     | `player1_id != player2_id`                              |
 
-### 5. Tests unitaires de sécurité
+### 5. Surface d'attaque réduite
+
+L'application est entièrement **locale** : pas de serveur, pas de réseau, pas d'API exposée. La base de données SQLite réside sur le poste de l'utilisateur et n'est jamais transmise. Cette architecture limite structurellement les vecteurs d'attaque externes (pas d'interception réseau, pas d'injection à distance, pas de fuite vers un tiers).
+
+### 6. Limites connues
+
+| Limite                        | Justification                                              |
+|-------------------------------|------------------------------------------------------------|
+| Pas d'authentification        | Application mono-utilisateur en environnement local, hors scope du projet |
+| Base de données non chiffrée  | SQLite en clair sur le disque — acceptable pour un usage local sans données sensibles |
+
+### 7. Tests unitaires de sécurité
 
 La classe `InputValidatorTest` couvre 21 cas de test, dont des tentatives d'injection SQL, de balises HTML et de dépassement de longueur.
 
+La classe `TournamentStatusTest` couvre 10 cas de test sur la logique de statut des tournois : détection de fin de tournoi, avancement automatique au round suivant, et état des matchs.
+
 ```
-Tests run: 21, Failures: 0, Errors: 0, Skipped: 0
+Tests run: 31, Failures: 0, Errors: 0, Skipped: 0
 ```
 
 ## Structure du projet
@@ -89,9 +102,12 @@ src/main/java/com/tournamentmanager/
 └── util/
     ├── BracketGenerator
     ├── InputValidator
-    └── PdfExporter
+    ├── PdfExporter
+    └── Seeder
 
 src/test/java/com/tournamentmanager/
+├── model/
+│   └── TournamentStatusTest
 └── util/
     └── InputValidatorTest
 ```
@@ -115,8 +131,18 @@ Accueil
 
 - Java 21+
 - Maven 3.8+
+- IntelliJ IDEA (recommandé)
 
-### Commande
+### Via IntelliJ IDEA
+
+L'application peut être récupérée et lancée directement depuis **IntelliJ IDEA** sans passer par la ligne de commande :
+
+1. Sur l'écran d'accueil d'IntelliJ IDEA, cliquer sur `Get from VCS` (cloner depuis GitHub)
+2. Coller l'URL du dépôt GitHub et cliquer sur `Clone`
+3. IntelliJ détecte automatiquement la configuration Maven
+4. Lancer la configuration `App` depuis le bouton ▶ en haut à droite
+
+### Via ligne de commande
 
 ```bash
 mvn clean javafx:run
