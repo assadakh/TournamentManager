@@ -1,27 +1,82 @@
 # Tournament Manager
 
+![Java](https://img.shields.io/badge/Java-21-ED8B00?style=flat&logo=openjdk&logoColor=white)
+![JavaFX](https://img.shields.io/badge/JavaFX-21-007396?style=flat&logo=java&logoColor=white)
+![SQLite](https://img.shields.io/badge/SQLite-3.46-003B57?style=flat&logo=sqlite&logoColor=white)
+![Maven](https://img.shields.io/badge/Maven-3.8+-C71A36?style=flat&logo=apachemaven&logoColor=white)
+![Statut](https://img.shields.io/badge/Statut-Fonctionnel-brightgreen)
+
 Application desktop JavaFX de gestion de tournois e-sport en élimination directe, développée dans le cadre du BTS SIO option SLAM.
+
+---
 
 ## Fonctionnalités
 
-- **Gestion des joueurs** — créer et supprimer des joueurs (nom + jeu)
+- **Gestion des joueurs** — créer et supprimer des joueurs (pseudo + jeu)
 - **Gestion des tournois** — créer des tournois, y inscrire des joueurs
 - **Génération de bracket** — tirage aléatoire et génération automatique des matchs
 - **Suivi des résultats** — enregistrement des gagnants avec avancement automatique au tour suivant
 - **Export PDF** — bracket visuel horizontal exporté en A4 paysage
 
+---
+
 ## Stack technique
 
-| Composant        | Technologie            |
-|------------------|------------------------|
-| Langage          | Java 21                |
-| UI               | JavaFX 21 (FXML)       |
-| Base de données  | SQLite (jdbc 3.46)     |
-| Export PDF       | Apache PDFBox 3.0.1    |
-| Build            | Maven                  |
-| Tests            | JUnit 5                |
+| Couche | Technologie | Version |
+|---|---|---|
+| Langage | Java | 21 |
+| UI | JavaFX (FXML) | 21 |
+| Base de données | SQLite (jdbc) | 3.46 |
+| Export PDF | Apache PDFBox | 3.0.1 |
+| Build | Maven | 3.8+ |
+| Tests | JUnit 5 | — |
 
-## Sécurité (E6 — Cybersécurité des services informatiques)
+---
+
+## Lancer l'application
+
+### Prérequis
+
+- Java 21+
+- Maven 3.8+
+- IntelliJ IDEA (recommandé)
+
+### Via IntelliJ IDEA
+
+1. Sur l'écran d'accueil d'IntelliJ IDEA, cliquer sur `Get from VCS` (cloner depuis GitHub)
+2. Coller l'URL du dépôt GitHub et cliquer sur `Clone`
+3. IntelliJ détecte automatiquement la configuration Maven
+4. Ouvrir le fichier `src/main/java/com/tournamentmanager/App.java`
+5. Cliquer sur le bouton **Start** (▶) en haut de l'écran pour lancer l'application
+
+### Via ligne de commande
+
+```bash
+mvn clean javafx:run
+```
+
+La base de données `tournament.db` est créée automatiquement à la racine du projet au premier lancement.
+
+### Lancer les tests
+
+```bash
+mvn test
+```
+
+---
+
+## Structure de la base de données
+
+| Table | Rôle |
+|---|---|
+| `players` | Joueurs inscrits (pseudo + jeu) |
+| `tournaments` | Tournois créés (nom, jeu, date, statut) |
+| `tournament_players` | Association joueurs ↔ tournois |
+| `matches` | Matchs générés avec gagnant et numéro de round |
+
+---
+
+## Sécurité
 
 ### 1. Validation et sanitisation des entrées
 
@@ -43,16 +98,16 @@ Toutes les requêtes utilisent des `PreparedStatement` avec paramètres liés (`
 
 Le schéma SQLite applique des contraintes `CHECK` indépendamment de l'application (défense en profondeur) :
 
-| Table         | Contrainte                                              |
-|---------------|---------------------------------------------------------|
-| `players`     | `length(name) BETWEEN 2 AND 50`                         |
-| `players`     | `length(game) BETWEEN 2 AND 50`                         |
-| `tournaments` | `length(name) BETWEEN 2 AND 50`                         |
-| `tournaments` | `length(game) BETWEEN 2 AND 50`                         |
-| `tournaments` | `length(date) = 10`                                     |
-| `tournaments` | `status IN ('En attente', 'En cours', 'Terminé')`       |
-| `matches`     | `round >= 1`                                            |
-| `matches`     | `player1_id != player2_id`                              |
+| Table | Contrainte |
+|---|---|
+| `players` | `length(name) BETWEEN 2 AND 50` |
+| `players` | `length(game) BETWEEN 2 AND 50` |
+| `tournaments` | `length(name) BETWEEN 2 AND 50` |
+| `tournaments` | `length(game) BETWEEN 2 AND 50` |
+| `tournaments` | `length(date) = 10` |
+| `tournaments` | `status IN ('En attente', 'En cours', 'Terminé')` |
+| `matches` | `round >= 1` |
+| `matches` | `player1_id != player2_id` |
 
 ### 5. Surface d'attaque réduite
 
@@ -60,10 +115,10 @@ L'application est entièrement **locale** : pas de serveur, pas de réseau, pas 
 
 ### 6. Limites connues
 
-| Limite                        | Justification                                              |
-|-------------------------------|------------------------------------------------------------|
-| Pas d'authentification        | Application mono-utilisateur en environnement local, hors scope du projet |
-| Base de données non chiffrée  | SQLite en clair sur le disque — acceptable pour un usage local sans données sensibles |
+| Limite | Justification |
+|---|---|
+| Pas d'authentification | Application mono-utilisateur en environnement local, hors scope du projet |
+| Base de données non chiffrée | SQLite en clair sur le disque — acceptable pour un usage local sans données sensibles |
 
 ### 7. Tests unitaires de sécurité
 
@@ -74,6 +129,8 @@ La classe `TournamentStatusTest` couvre 10 cas de test sur la logique de statut 
 ```
 Tests run: 31, Failures: 0, Errors: 0, Skipped: 0
 ```
+
+---
 
 ## Structure du projet
 
@@ -112,6 +169,8 @@ src/test/java/com/tournamentmanager/
     └── InputValidatorTest
 ```
 
+---
+
 ## Navigation
 
 ```
@@ -125,36 +184,7 @@ Accueil
     └── Nouveau joueur
 ```
 
-## Lancer l'application
-
-### Prérequis
-
-- Java 21+
-- Maven 3.8+
-- IntelliJ IDEA (recommandé)
-
-### Via IntelliJ IDEA
-
-L'application peut être récupérée et lancée directement depuis **IntelliJ IDEA** sans passer par la ligne de commande :
-
-1. Sur l'écran d'accueil d'IntelliJ IDEA, cliquer sur `Get from VCS` (cloner depuis GitHub)
-2. Coller l'URL du dépôt GitHub et cliquer sur `Clone`
-3. IntelliJ détecte automatiquement la configuration Maven
-4. Lancer la configuration `App` depuis le bouton ▶ en haut à droite
-
-### Via ligne de commande
-
-```bash
-mvn clean javafx:run
-```
-
-La base de données `tournament.db` est créée automatiquement à la racine du projet au premier lancement.
-
-### Lancer les tests
-
-```bash
-mvn test
-```
+---
 
 ## Export PDF
 
@@ -167,3 +197,9 @@ Le bracket est exporté en **A4 paysage** avec :
 - Nom du tournoi, jeu et date en en-tête
 
 Le fichier est sauvegardé sous `bracket_<NomDuTournoi>.pdf` à la racine du projet.
+
+---
+
+## Développement
+
+Développé dans le cadre du BTS SIO option SLAM.
